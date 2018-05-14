@@ -1,10 +1,16 @@
 package com.ashima.androidexercise.Models;
+/**
+ * Pojo Class Used to Bound JSON DATA : Used in Retrofit
+ *
+ * @author Ashima
+ * @see com.ashima.androidexercise.Utils.ApiInterface
+ * Using GSON
+ */
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FeedModel {
     @SerializedName("title")

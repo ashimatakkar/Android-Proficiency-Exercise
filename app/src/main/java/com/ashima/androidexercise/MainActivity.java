@@ -1,4 +1,12 @@
 package com.ashima.androidexercise;
+/**
+ * Home Activity used to show feed data .
+ * Feed Data Receive From SERVER in JSON
+ * <p>
+ * This screen decide where to go from splash.
+ *
+ * @author Ashima
+ */
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -43,8 +51,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         getFeedFromServer();
     }
 
+    /**
+     * This method used to initialize all views from xml by id and other related operations like listeners etc
+     */
     private void initView() {
-        // inilitize all views by id
+        // initialize all views by id
         toolbar = findViewById(R.id.toolbar);
         recyclerViewFeeds = findViewById(R.id.recyclerViewFeeds);
         swipeRefreshLayout = findViewById(R.id.swipeLayout);
@@ -55,7 +66,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    // this will never block UI as it is ASYCH Call means all operation in background and get callback when recived response : By default retrofit provide it
+    /**
+     * This method get feeds from server.
+     *
+     * @see RetrofitApiClient
+     * @see ApiInterface
+     * @see FeedModel
+     * @see RowDataFeed
+     * if adapter is already set then notify adapter with new data ( which is already set to rowDataFeedList)
+     * this will never block UI as it is ASYCH Call means all operation in background and get callback on UI Thread when received response : By default retrofit provide it
+     */
+
     private void getFeedFromServer() {
         lockScreenOrientation();
         swipeRefreshLayout.setRefreshing(true);
@@ -94,20 +115,34 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
     }
 
+
+    /**
+     * This method used to set Adapter on RecycleView.
+     * if adapter is already set then notify adapter with new data ( which is already set to rowDataFeedList)
+     */
     private void setRecyclerViewAdapter() {
-        if (feedAdapter == null) {
-            recyclerViewFeeds.setLayoutManager(new LinearLayoutManager(this));
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewFeeds.getContext(),
-                    LinearLayoutManager.VERTICAL);
-            recyclerViewFeeds.addItemDecoration(dividerItemDecoration);
-            feedAdapter = new FeedAdapter(this, rowDataFeedList);
-            recyclerViewFeeds.setAdapter(feedAdapter);
-        } else {
-            feedAdapter.notifyDataSetChanged();
+        if (rowDataFeedList != null) {
+            if (feedAdapter == null) {
+                recyclerViewFeeds.setLayoutManager(new LinearLayoutManager(this));
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewFeeds.getContext(),
+                        LinearLayoutManager.VERTICAL);
+                recyclerViewFeeds.addItemDecoration(dividerItemDecoration);
+                feedAdapter = new FeedAdapter(this, rowDataFeedList);
+                recyclerViewFeeds.setAdapter(feedAdapter);
+            } else {
+                feedAdapter.notifyDataSetChanged();
+            }
         }
+
     }
 
+    /**
+     * This method used to show given title on Toolbar.
+     *
+     * @param title title to show on toolbar
+     */
     private void setToolbarTitle(String title) {
+        if(title!=null)
         toolbar.setTitle(title);
     }
 
@@ -160,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void unlockScreenOrientation() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
+
     @Override
     public void onRefresh() {
         getFeedFromServer();

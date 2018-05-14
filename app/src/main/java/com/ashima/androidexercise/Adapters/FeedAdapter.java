@@ -14,7 +14,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-
+/**
+ * Adapter Used to Bound With RecyclerView View to Show Feed ROW
+ *
+ * @author Ashima
+ */
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private ArrayList<RowDataFeed> rowDataFeedList;
