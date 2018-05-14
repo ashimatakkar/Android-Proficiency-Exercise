@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ashima.androidexercise.Models.RowDataFeed;
 import com.ashima.androidexercise.R;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private ArrayList<RowDataFeed> rowDataFeedList;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private Context mContext;
 
     // data is passed into the constructor
     public FeedAdapter(Context context, ArrayList<RowDataFeed> data) {
@@ -30,6 +32,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.row_feed, parent, false);
+        mContext=view.getContext();
         return new ViewHolder(view);
     }
 
@@ -39,7 +42,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         final RowDataFeed rowDataFeed = rowDataFeedList.get(position);
         holder.tvTitle.setText(rowDataFeed.getTitle());
         holder.tvDesc.setText(rowDataFeed.getDescription());
-
+        String imageURL=rowDataFeed.getImageHref();
+        if(imageURL!=null)
+        Glide.with(mContext).load(imageURL).into(holder.ivThumbnail);
     }
 
     // total number of rows
